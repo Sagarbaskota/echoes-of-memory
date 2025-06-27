@@ -1,1 +1,129 @@
 # echoes-of-memory
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echoes of Memory</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #d4e0e8, #f5f5f5);
+    }
+    header {
+      background: #2f3e8c;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    main {
+      padding: 1em;
+    }
+    .center {
+      text-align: center;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px auto;
+      display: block;
+      width: 80%;
+      font-size: 16px;
+    }
+    img.avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px auto;
+      display: none;
+    }
+    .info-box {
+      background: #ffffffcc;
+      border-radius: 10px;
+      padding: 1em;
+      margin-top: 1em;
+    }
+    h2 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Echoes of Memory</h1>
+  </header>
+
+  <main>
+    <div class="center">
+      <input type="text" id="playerName" placeholder="Enter your name..." />
+      <input type="file" id="avatarUpload" accept="image/*" />
+      <img id="avatarPreview" class="avatar" alt="Avatar" />
+
+      <select id="clothesSelect">
+        <option value="Default">👕 Default</option>
+        <option value="Traveler">🎒 Traveler</option>
+        <option value="Warrior">⚔️ Warrior</option>
+        <option value="Casual">🧥 Casual</option>
+      </select>
+
+      <button onclick="generateTask()">🔁 Generate New Task</button>
+    </div>
+
+    <div class="info-box center">
+      <h2>🧭 Task:</h2>
+      <p id="taskDisplay">Loading task...</p>
+
+      <h2>🌅 Time of Day:</h2>
+      <p id="timeDisplay">Loading...</p>
+
+      <h2>⛅ Weather:</h2>
+      <p id="weatherDisplay">Loading...</p>
+    </div>
+  </main>
+
+  <script>
+    const tasks = [
+      "Help Tara find her toy.",
+      "Speak with Doma about the forest.",
+      "Collect herbs near the river.",
+      "Sit by the elder tree and listen.",
+      "Bring food to the cave elder.",
+    ];
+
+    const times = ["Morning", "Afternoon", "Evening", "Night"];
+    const weathers = ["Sunny", "Rainy", "Snowy", "Foggy", "Windy"];
+
+    function generateTask() {
+      const task = tasks[Math.floor(Math.random() * tasks.length)];
+      document.getElementById("taskDisplay").innerText = task;
+    }
+
+    function cycleTimeAndWeather() {
+      setInterval(() => {
+        const newTime = times[Math.floor(Math.random() * times.length)];
+        const newWeather = weathers[Math.floor(Math.random() * weathers.length)];
+        document.getElementById("timeDisplay").innerText = newTime;
+        document.getElementById("weatherDisplay").innerText = newWeather;
+      }, 10000); // every 10 seconds
+    }
+
+    document.getElementById("avatarUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const avatar = document.getElementById("avatarPreview");
+          avatar.src = event.target.result;
+          avatar.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Initial load
+    generateTask();
+    cycleTimeAndWeather();
+  </script>
+</body>
+</html>
